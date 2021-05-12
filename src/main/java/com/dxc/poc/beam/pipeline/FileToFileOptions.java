@@ -11,9 +11,15 @@ public interface FileToFileOptions extends DataflowPipelineOptions {
 
     void setInputFile(String value);
 
-    @Description("Path of the file to write to")
+    @Description("Output dataset ID")
     @Validation.Required
-    String getOutputFile();
+    String getDataset();
 
-    void setOutputFile(String value);
+    void setDataset(String value);
+
+    @Description("Output table name")
+    @Default.String("pnr_output")
+    String getTableName();
+
+    void setTableName(String value);
 }
