@@ -1,10 +1,9 @@
 package com.dxc.poc.beam.pipeline;
 
-import org.apache.beam.sdk.options.Description;
-import org.apache.beam.sdk.options.PipelineOptions;
-import org.apache.beam.sdk.options.Validation;
+import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
+import org.apache.beam.sdk.options.*;
 
-public interface FileToFileOptions extends PipelineOptions {
+public interface FileToFileOptions extends DataflowPipelineOptions {
 
     @Description("Path of the file to read from")
     @Validation.Required
