@@ -5,7 +5,7 @@ import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
 import lombok.val;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 
-public class Main {
+public class GsToBqApplication {
 
     public static void main(String[] args) {
         val options = PipelineOptionsFactory.fromArgs(args)
