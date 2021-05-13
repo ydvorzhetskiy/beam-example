@@ -18,7 +18,7 @@ import org.apache.beam.sdk.transforms.ParDo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileToFilePipeline {
+public class PnrGsToBqPipeline {
 
     static class ToTableRow extends DoFn<Pnr, TableRow> {
         @ProcessElement
@@ -28,7 +28,7 @@ public class FileToFilePipeline {
         }
     }
 
-    public static void createAndRunPipeline(FileToFileOptions options) {
+    public static void createAndRunPipeline(GsToBqOptions options) {
         val tableRef = new TableReference();
         tableRef.setProjectId(options.getProject());
         tableRef.setDatasetId(options.getDataset());

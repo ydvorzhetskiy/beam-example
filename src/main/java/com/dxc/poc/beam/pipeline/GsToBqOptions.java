@@ -3,7 +3,7 @@ package com.dxc.poc.beam.pipeline;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.options.*;
 
-public interface FileToFileOptions extends DataflowPipelineOptions {
+public interface GsToBqOptions extends DataflowPipelineOptions {
 
     @Description("Path of the file to read from")
     @Validation.Required
