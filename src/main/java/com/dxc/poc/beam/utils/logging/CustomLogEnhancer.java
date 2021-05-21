@@ -11,8 +11,9 @@ public class CustomLogEnhancer implements LoggingEnhancer {
 
         LogContext.getLabels().forEach((k, v) -> builder.addLabel(k, v));
 
-        if(!LogContext.getJsonVars().isEmpty())
+        if(!LogContext.getJsonVars().isEmpty()) {
             builder.setPayload(Payload.JsonPayload.of(LogContext.getJsonVars()));
+        }
 
     }
 }
