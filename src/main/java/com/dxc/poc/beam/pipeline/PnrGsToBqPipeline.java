@@ -49,7 +49,7 @@ public class PnrGsToBqPipeline {
         val metrics = result.metrics();
 
         val metricsResults = metrics.queryMetrics(MetricsFilter.builder()
-                .addNameFilter(MetricNameFilter.named(ToTableRowDoFn.class, "pnr-to-table-row-counter")).build());
+                .addNameFilter(MetricNameFilter.named("beam-example", "good_record_count")).build());
 
         Iterator<MetricResult<Long>> counters = metricsResults.getCounters().iterator();
 
