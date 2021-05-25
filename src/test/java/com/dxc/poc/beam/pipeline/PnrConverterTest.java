@@ -30,7 +30,7 @@ public class PnrConverterTest {
         pnr.setPrLocatorId("FGDNKU");
         pnr.setTicketNumber("1c345a7812u45");
         pnr.setPrCreateDate("2021-05-11");
-        pnr.setPrSequence(1);
+        pnr.setPrSequence("100");
         pnr.setFromDatetime("2021-05-11 13:35:12");
         pnr.setTrDatetime("2021-05-11 13:35:12");
         val card = new CreditCard();
