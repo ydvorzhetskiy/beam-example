@@ -3,7 +3,6 @@ package com.dxc.poc.beam;
 import com.dxc.poc.beam.pipeline.GsToBqOptions;
 import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
 import com.dxc.poc.beam.utils.logging.LogContext;
-import com.google.api.client.auth.openidconnect.IdToken;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +11,6 @@ import org.apache.beam.runners.dataflow.DataflowRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MarkerFactory;
-import sun.rmi.runtime.Log;
 
 import java.util.*;
 
@@ -25,17 +20,18 @@ public class GsToBqApplication {
 //    private static final Logger logger = LoggerFactory.getLogger(GsToBqApplication.class);
 
     static Logging logging = LoggingOptions.getDefaultInstance().getService();
-    static void logSmth(){
+
+    static void logSmth() {
 
         String logName = "my.log";
         String text = "Hello, world!";
 
         LogEntry entry =
-                LogEntry.newBuilder(Payload.StringPayload.of(text))
-                        .setSeverity(Severity.ERROR)
-                        .setLogName(logName)
-                        .setResource(MonitoredResource.newBuilder("global").build())
-                        .build();
+            LogEntry.newBuilder(Payload.StringPayload.of(text))
+                .setSeverity(Severity.ERROR)
+                .setLogName(logName)
+                .setResource(MonitoredResource.newBuilder("global").build())
+                .build();
 
         // Writes the log entry asynchronously
         logging.write(Collections.singleton(entry));
@@ -52,9 +48,9 @@ public class GsToBqApplication {
         entry = LogEntry.newBuilder(Payload.JsonPayload.of(jsonMap)).setSeverity(Severity.ERROR).build();
         entries.add(entry);
         logging.write(
-                entries,
-                Logging.WriteOption.logName(logName),
-                Logging.WriteOption.resource(MonitoredResource.newBuilder("gae_app").build()));
+            entries,
+            Logging.WriteOption.logName(logName),
+            Logging.WriteOption.resource(MonitoredResource.newBuilder("gae_app").build()));
 
         System.out.printf("Logged: end", text);
 
@@ -64,27 +60,27 @@ public class GsToBqApplication {
 
         //logSmth();
 
-        LogContext.setLabel("coustom_label", "custom_value");
-        LogContext.setJsonVar("custom_json_var", "cusotm_json_value");
+        LogContext.setLabel("custom_label", "custom_value");
+        LogContext.setJsonVar("custom_json_var", "custom_json_value");
         LogContext.setJsonVar("message", "This is a message injected to JSON");
 
         log.info("Starting the GS2BQ Example pipeline 1...");
 
         LogContext.clearJsonVar();
 
-        LogContext.setLabel("coustom_label", "custom_value_new");
-        LogContext.setLabel("coustom_label_2", "custom_value_new_2");
+        LogContext.setLabel("custom_label", "custom_value_new");
+        LogContext.setLabel("custom_label_2", "custom_value_new_2");
 
         log.info("label123=value123|Starting the GS2BQ Example pipeline 2...");
 
         log.error("label1=value1|label2=value2|Custom Labels example");
 
         val options = PipelineOptionsFactory.fromArgs(args)
-                .withValidation()
-                .as(GsToBqOptions.class);
+            .withValidation()
+            .as(GsToBqOptions.class);
         options.setRunner(DataflowRunner.class);
 
-        if(options.getTemplateLocation()!=null){
+        if (options.getTemplateLocation() != null) {
             log.info("Call for a template generation");
             PipelineResult result = Pipeline.create(options).run();
             try {
@@ -100,9 +96,6 @@ public class GsToBqApplication {
             log.info("Start processing");
             PnrGsToBqPipeline.createAndRunPipeline(options);
         }
-
-
-        //PnrGsToBqPipeline.createAndRunPipeline(options);
 
         log.info("GS2BQ processing finished.");
     }

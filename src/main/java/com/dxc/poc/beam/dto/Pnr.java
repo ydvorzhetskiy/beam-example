@@ -19,7 +19,7 @@ public class Pnr implements Serializable {
     private String prCreateDate;
 
     @JsonProperty("pr_sequence")
-    private int prSequence;
+    private String prSequence;
 
     @JsonProperty("from_datetime")
     private String fromDatetime;

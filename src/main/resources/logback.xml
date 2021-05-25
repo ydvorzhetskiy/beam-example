@@ -1,15 +1,15 @@
 <configuration>
-    <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">
-        <!-- Optional : filter logs at or above a level -->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-        <log>application.log</log> <!-- Optional : default java.log -->
-        <resourceType>gae_app</resourceType> <!-- Optional : default: auto-detected, fallback: global -->
-        <enhancer>com.dxc.poc.beam.logback.enhancers.CDMLogEnhancer</enhancer> <!-- Optional -->
-        <enhancer>com.dxc.poc.beam.utils.logging.CustomLogEnhancer</enhancer>
-        <flushLevel>WARN</flushLevel> <!-- Optional : default ERROR -->
-    </appender>
+<!--    <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">-->
+<!--        &lt;!&ndash; Optional : filter logs at or above a level &ndash;&gt;-->
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>INFO</level>-->
+<!--        </filter>-->
+<!--        <log>application.log</log> &lt;!&ndash; Optional : default java.log &ndash;&gt;-->
+<!--        <resourceType>gae_app</resourceType> &lt;!&ndash; Optional : default: auto-detected, fallback: global &ndash;&gt;-->
+<!--        <enhancer>com.dxc.poc.beam.logback.enhancers.CDMLogEnhancer</enhancer> &lt;!&ndash; Optional &ndash;&gt;-->
+<!--        <enhancer>com.dxc.poc.beam.utils.logging.CustomLogEnhancer</enhancer>-->
+<!--        <flushLevel>WARN</flushLevel> &lt;!&ndash; Optional : default ERROR &ndash;&gt;-->
+<!--    </appender>-->
 
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -21,7 +21,7 @@
     </appender>
 
     <root level="info">
-        <appender-ref ref="CLOUD" />
+<!--        <appender-ref ref="CLOUD" />-->
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
