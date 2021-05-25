@@ -1,5 +1,8 @@
 package com.dxc.poc.beam;
 
+import ch.qos.logback.classic.ClassicConstants;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
 import com.dxc.poc.beam.pipeline.GsToBqOptions;
 import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
 import com.dxc.poc.beam.utils.logging.LogContext;
@@ -11,13 +14,16 @@ import org.apache.beam.runners.dataflow.DataflowRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-@Slf4j
+
 public class GsToBqApplication {
 
-//    private static final Logger logger = LoggerFactory.getLogger(GsToBqApplication.class);
+    public static final Logger log = LoggerFactory.getLogger(GsToBqApplication.class);
 
     static Logging logging = LoggingOptions.getDefaultInstance().getService();
 
@@ -58,6 +64,17 @@ public class GsToBqApplication {
 
     public static void main(String[] args) {
 
+        System.getProperties().setProperty(
+                ClassicConstants.LOGBACK_CONTEXT_SELECTOR,
+                ch.qos.logback.classic.LoggerContext.class.getName()
+        );
+
+
+        System.out.println("LoggerFactory: " + LoggerFactory.getILoggerFactory());
+
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(lc);
+
         //logSmth();
 
         LogContext.setLabel("custom_label", "custom_value");
@@ -74,6 +91,7 @@ public class GsToBqApplication {
         log.info("label123=value123|Starting the GS2BQ Example pipeline 2...");
 
         log.error("label1=value1|label2=value2|Custom Labels example");
+        log.error("beam_example=Numeric_Validation_Error|Number format validation");
 
         val options = PipelineOptionsFactory.fromArgs(args)
             .withValidation()
@@ -97,6 +115,7 @@ public class GsToBqApplication {
             PnrGsToBqPipeline.createAndRunPipeline(options);
         }
 
+        log.error("label314=value314|label2=value2|Custom Labels example");
         log.info("GS2BQ processing finished.");
     }
 }
