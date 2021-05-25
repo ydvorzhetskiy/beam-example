@@ -18,7 +18,7 @@ public class PnrConverterTest {
         assertEquals("FGDNKU", row.get("pr_locator_id"));
         assertEquals("1c345a7812u45", row.get("ticket_number"));
         assertEquals("2021-05-11", row.get("pr_create_date"));
-        assertEquals(1, row.get("pr_sequence"));
+        assertEquals("100", row.get("pr_sequence"));
         assertEquals("2021-05-11 13:35:12", row.get("from_datetime"));
         assertEquals("2021-05-11 13:35:12", row.get("tr_datetime"));
         assertEquals("Visa", row.get("creditcard_network"));
