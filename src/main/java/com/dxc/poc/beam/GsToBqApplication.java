@@ -9,6 +9,7 @@ import org.apache.beam.runners.dataflow.DataflowRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
+import org.apache.beam.sdk.values.KV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,9 @@ public class GsToBqApplication {
     public static void main(String[] args) {
 
         // Here is an example of info logging in main thread (Wrapper)
-        cloudLogger.info("This is first log entry!");
+        cloudLogger.info("Entering the Application",
+                KV.of("application-name", "beam-example"),
+                KV.of("job-name", "dxc-stream-demo-job"));
 
         // Here is an example of manual adding JSON parameters to the context (using Slf4j and Logback)
         LogContext.setLabel("custom_label", "custom_value");

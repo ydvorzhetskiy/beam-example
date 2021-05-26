@@ -31,7 +31,7 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
 
             // Here is an example of error logging
             log.error("Number format validation log record!",
-                KV.of("beam_example", "Numeric_Validation_Error"));
+                KV.of("error_type", "Numeric_Validation_Error"));
 
         } catch (Exception e) {
             log.error("Unexpected exception:", e);
