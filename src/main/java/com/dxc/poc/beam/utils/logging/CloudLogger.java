@@ -44,6 +44,16 @@ public final class CloudLogger implements Serializable {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
+    public void debug(String message, KV... labels) {
+        this.logEvent(Severity.DEBUG, message, labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void debug(String message, Throwable e, KV... labels) {
+        this.logEvent(Severity.DEBUG, message + "\n" + e.toString(), labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void error(String message, KV... labels) {
         this.logEvent(Severity.ERROR, message, labels);
     }
@@ -51,5 +61,35 @@ public final class CloudLogger implements Serializable {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void error(String message, Throwable e, KV... labels) {
         this.logEvent(Severity.ERROR, message + "\n" + e.toString(), labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void info(String message, KV... labels) {
+        this.logEvent(Severity.INFO, message, labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void info(String message, Throwable e, KV... labels) {
+        this.logEvent(Severity.INFO, message + "\n" + e.toString(), labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void warn(String message, KV... labels) {
+        this.logEvent(Severity.WARNING, message, labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void warn(String message, Throwable e, KV... labels) {
+        this.logEvent(Severity.WARNING, message + "\n" + e.toString(), labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void critical(String message, KV... labels) {
+        this.logEvent(Severity.CRITICAL, message, labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void critical(String message, Throwable e, KV... labels) {
+        this.logEvent(Severity.CRITICAL, message + "\n" + e.toString(), labels);
     }
 }

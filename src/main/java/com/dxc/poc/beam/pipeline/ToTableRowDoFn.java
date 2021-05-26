@@ -18,6 +18,10 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
 
     @ProcessElement
     public void processElement(@Element Pnr pnr, OutputReceiver<TableRow> out) {
+
+        // Here is an example of debug logging
+        log.debug("PNR will be processed", KV.of("ticket_number", pnr.getTicketNumber()));
+
         try {
             val row = PnrConverter.toTableRow(pnr);
             out.output(row);
@@ -25,7 +29,7 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
         } catch (NumberFormatException e) {
             badRecordCounter.inc();
 
-            // Here is example of error logging
+            // Here is an example of error logging
             log.error("Number format validation log record!",
                 KV.of("beam_example", "Numeric_Validation_Error"));
 
