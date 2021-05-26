@@ -29,7 +29,7 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
         );
     }
 
-    static void logError(KV<String,String> label, String message) {
+    static void logError(KV<String,String>[] label, String message) {
 
         Logging logging = LoggingOptions.getDefaultInstance().getService();
 
@@ -55,8 +55,12 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
 //        jsonMap.put(label.getKey(), label.getValue());
         jsonMap.put("message", message);
         //entries.add(LogEntry.of(Payload.JsonPayload.of(jsonMap)));
-        LogEntry entry = LogEntry.newBuilder(Payload.JsonPayload.of(jsonMap)).setSeverity(Severity.ERROR).
-                addLabel(label.getKey(), label.getValue()).build();
+        val builder = LogEntry.newBuilder(Payload.JsonPayload.of(jsonMap)).
+                setSeverity(Severity.ERROR);
+        if(label!=null){
+            Arrays.stream(label).forEach(item -> builder.addLabel(item.getKey(), item.getValue()));
+        }
+        LogEntry entry = builder.build();
         entries.add(entry);
         logging.write(
                 entries,
@@ -95,7 +99,7 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
 //            val altLogger = ctx.getLogger(ToTableRowDoFn.class);
 
             badRecordCounter.inc();
-            logError(KV.of("beam_example", "Numeric_Validation_Error"), "Number format validation log record");
+            logError(new KV[]{KV.of("beam_example", "Numeric_Validation_Error")}, "Number format validation log record");
 
 //            GsToBqApplication.log.error("beam_example=Numeric_Validation_Error_root|Number format validation");
 //            log.error("beam_example=Numeric_Validation_Error|Number format validation");
