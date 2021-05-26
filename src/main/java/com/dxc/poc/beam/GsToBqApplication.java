@@ -19,14 +19,14 @@ public class GsToBqApplication {
     // Here is an example of Logback and Slf4j usage
     private static final Logger log = LoggerFactory.getLogger(GsToBqApplication.class);
     // Here is an example of wrapper usage
-    private static final CloudLogger cloudLogger = CloudLogger.getLogger(GsToBqApplication.class);
+    private static final CloudLogger cloudLogger = CloudLogger.getLogger(GsToBqApplication.class,
+                                                                KV.of("application-name", "beam-example"),
+                                                                KV.of("job-name", "dxc-stream-demo-job"));
 
     public static void main(String[] args) {
 
         // Here is an example of info logging in main thread (Wrapper)
-        cloudLogger.info("Entering the Application",
-                KV.of("application-name", "beam-example"),
-                KV.of("job-name", "dxc-stream-demo-job"));
+        cloudLogger.info("Entering the Application");
 
         // Here is an example of manual adding JSON parameters to the context (using Slf4j and Logback)
         LogContext.setLabel("custom_label", "custom_value");

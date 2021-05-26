@@ -11,7 +11,9 @@ import org.apache.beam.sdk.values.KV;
 
 public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
 
-    private final CloudLogger log = CloudLogger.getLogger(ToTableRowDoFn.class);
+    private final CloudLogger log = CloudLogger.getLogger(ToTableRowDoFn.class,
+                                                KV.of("application-name", "beam-example"),
+                                                KV.of("job-name", "dxc-stream-demo-job"));
 
     private final Counter goodRecordCounter = Metrics.counter("beam-example", "good_record_count");
     private final Counter badRecordCounter = Metrics.counter("beam-example", "bad_record_count");

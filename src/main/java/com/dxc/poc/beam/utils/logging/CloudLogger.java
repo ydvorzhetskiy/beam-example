@@ -16,16 +16,18 @@ public final class CloudLogger implements Serializable {
     private static final String DEFAULT_LOG_NAME = "my.log";
     private static final String GAE_APP = "gae_app";
 
-    public static CloudLogger getLogger(Class<?> clazz) {
-        return new CloudLogger(DEFAULT_LOG_NAME, clazz.getName());
+    public static CloudLogger getLogger(Class<?> clazz, KV... labels) {
+        return new CloudLogger(DEFAULT_LOG_NAME, clazz.getName(), labels);
     }
 
     private final String logName;
     private final String loggerName;
+    private final KV[] permanentLabels;
 
-    private CloudLogger(String logName, String loggerName) {
+    private CloudLogger(String logName, String loggerName, KV<Object, Object>[] labels) {
         this.logName = logName;
         this.loggerName = loggerName;
+        this.permanentLabels = labels;
     }
 
     private void logEvent(Severity severity, String message, KV<Object, Object>[] labels) {
@@ -33,6 +35,11 @@ public final class CloudLogger implements Serializable {
         val builder = LogEntry.newBuilder(Payload.JsonPayload.of(singletonMap("message", message)))
             .setSeverity(severity)
             .addLabel("loggerName", this.loggerName);
+
+        if (permanentLabels !=null){
+            Arrays.stream(permanentLabels)
+                    .forEach(item -> builder.addLabel(String.valueOf(item.getKey()), String.valueOf(item.getValue())));
+        }
         if (labels != null) {
             Arrays.stream(labels)
                 .forEach(item -> builder.addLabel(String.valueOf(item.getKey()), String.valueOf(item.getValue())));
