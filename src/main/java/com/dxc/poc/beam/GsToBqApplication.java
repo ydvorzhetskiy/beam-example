@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
 import com.dxc.poc.beam.pipeline.GsToBqOptions;
 import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
+import com.dxc.poc.beam.utils.logging.CloudLogger;
 import com.dxc.poc.beam.utils.logging.LogContext;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.*;
@@ -24,6 +25,7 @@ import java.util.*;
 public class GsToBqApplication {
 
     public static final Logger log = LoggerFactory.getLogger(GsToBqApplication.class);
+    private static final CloudLogger cloudLogger = CloudLogger.getLogger(GsToBqApplication.class);
 
     static Logging logging = LoggingOptions.getDefaultInstance().getService();
 
@@ -63,6 +65,8 @@ public class GsToBqApplication {
     }
 
     public static void main(String[] args) {
+
+        cloudLogger.error("This is first log entry!", null);
 
         System.getProperties().setProperty(
                 ClassicConstants.LOGBACK_CONTEXT_SELECTOR,
