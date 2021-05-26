@@ -6,11 +6,15 @@ import lombok.val;
 import org.apache.beam.sdk.values.KV;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 
 public final class CloudLogger implements Serializable {
 
     private static final String DEFAULT_LOG_NAME = "my.log";
+    private static final String GAE_APP = "gae_app";
 
     public static CloudLogger getLogger(Class<?> clazz) {
         return new CloudLogger(DEFAULT_LOG_NAME, clazz.getName());
@@ -24,26 +28,28 @@ public final class CloudLogger implements Serializable {
         this.loggerName = loggerName;
     }
 
-    private void logEvent(Severity severity, String message, KV<String, String>[] label) {
-        // TODO: use loggerName
+    private void logEvent(Severity severity, String message, KV<Object, Object>[] labels) {
         Logging logging = LoggingOptions.getDefaultInstance().getService();
-        List<LogEntry> entries = new ArrayList<>();
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("message", message);
-        val builder = LogEntry.newBuilder(Payload.JsonPayload.of(jsonMap)).
-            setSeverity(severity);
-        if (label != null) {
-            Arrays.stream(label).forEach(item -> builder.addLabel(item.getKey(), item.getValue()));
+        val builder = LogEntry.newBuilder(Payload.JsonPayload.of(singletonMap("message", message)))
+            .setSeverity(severity)
+            .addLabel("loggerName", this.loggerName);
+        if (labels != null) {
+            Arrays.stream(labels)
+                .forEach(item -> builder.addLabel(String.valueOf(item.getKey()), String.valueOf(item.getValue())));
         }
-        LogEntry entry = builder.build();
-        entries.add(entry);
         logging.write(
-            entries,
+            singletonList(builder.build()),
             Logging.WriteOption.logName(logName),
-            Logging.WriteOption.resource(MonitoredResource.newBuilder("gae_app").build()));
+            Logging.WriteOption.resource(MonitoredResource.newBuilder(GAE_APP).build()));
     }
 
-    public void error(String message, KV<String, String>[] labels) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void error(String message, KV... labels) {
         this.logEvent(Severity.ERROR, message, labels);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void error(String message, Throwable e, KV... labels) {
+        this.logEvent(Severity.ERROR, message + "\n" + e.toString(), labels);
     }
 }
