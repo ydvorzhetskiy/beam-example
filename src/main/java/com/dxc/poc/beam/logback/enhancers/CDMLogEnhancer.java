@@ -11,17 +11,7 @@ public class CDMLogEnhancer implements LoggingEnhancer {
     @Override
     public void enhanceLogEntry(LogEntry.Builder builder) {
 
-//        System.out.println("Payload:"+builder.build().getPayload().toString());
 
-//        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-//        System.out.println("type: "+ builder.build().getPayload().getType());
-//        System.out.println("data: "+ builder.build().getPayload().getData());
-//        System.out.println("dataClass: " + builder.build().getPayload().getData().getClass());
-//        System.out.println("payloadClass: " + builder.build().getPayload().getClass());
-
-//        Payload.JsonPayload payload = builder.build().getPayload();
-//        val msg = payload.getDataAsMap().get("message");
-//        System.out.println("message: "+ msg);
 
         val payload = builder.build().getPayload();
 
