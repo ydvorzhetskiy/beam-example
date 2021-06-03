@@ -15,6 +15,8 @@ import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.KV;
 
+import static com.dxc.poc.beam.utils.MetricUtils.withElapsedTime;
+
 public class PnrGsToBqPipeline {
 
     private static final CloudLogger logger = CloudLogger.getLogger(PnrGsToBqPipeline.class);
@@ -28,10 +30,10 @@ public class PnrGsToBqPipeline {
             .apply("Read JSON from file",
                 TextIO.read().from(options.getInputFile()))
             .apply("Parse JSON to DTO",
-                ParseJsons.of(Pnr.class))
+                withElapsedTime("parse_json", ParseJsons.of(Pnr.class)))
             .setCoder(SerializableCoder.of(Pnr.class))
             .apply("Convert to table row",
-                ParDo.of(new ToTableRowDoFn()))
+                withElapsedTime("to_table_row_milliseconds", ParDo.of(new ToTableRowDoFn())))
             .apply("Write to BQ", BigQueryIO.writeTableRows()
                 .to(tableRef)
                 .withSchema(schema)
