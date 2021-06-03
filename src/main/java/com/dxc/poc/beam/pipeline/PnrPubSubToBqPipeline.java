@@ -11,6 +11,8 @@ import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.ParDo;
 
+import static com.dxc.poc.beam.utils.MetricUtils.withElapsedTime;
+
 public class PnrPubSubToBqPipeline {
 
     public static void createAndRunPipeline(PubSubToBqOptions options) {
@@ -26,7 +28,7 @@ public class PnrPubSubToBqPipeline {
                         ParseJsons.of(Pnr.class))
                 .setCoder(SerializableCoder.of(Pnr.class))
                 .apply("Convert to table row",
-                        ParDo.of(new ToTableRowDoFn()))
+                    withElapsedTime("to_table_row_milliseconds", ParDo.of(new ToTableRowDoFn())))
                 .apply("Write to BQ", BigQueryIO.writeTableRows()
                         .to(tableRef)
                         .withSchema(schema)
