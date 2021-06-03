@@ -1,7 +1,7 @@
 package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
-import com.dxc.poc.beam.utils.logging.CloudLogger;
+import com.sabre.gcp.logging.CloudLogger;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;

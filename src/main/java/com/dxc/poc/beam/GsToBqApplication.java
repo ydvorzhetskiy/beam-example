@@ -2,8 +2,8 @@ package com.dxc.poc.beam;
 
 import com.dxc.poc.beam.pipeline.GsToBqOptions;
 import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
-import com.dxc.poc.beam.utils.logging.CloudLogger;
 import com.dxc.poc.beam.utils.logging.LogContext;
+import com.sabre.gcp.logging.CloudLogger;
 import lombok.val;
 import org.apache.beam.runners.dataflow.DataflowRunner;
 import org.apache.beam.sdk.Pipeline;

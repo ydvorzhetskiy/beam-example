@@ -1,8 +1,8 @@
 package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
-import com.dxc.poc.beam.utils.logging.CloudLogger;
 import com.google.api.services.bigquery.model.TableRow;
+import com.sabre.gcp.logging.CloudLogger;
 import lombok.val;
 import org.apache.beam.sdk.metrics.Counter;
 import org.apache.beam.sdk.metrics.Metrics;

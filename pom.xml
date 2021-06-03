@@ -53,10 +53,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Logging -->
         <dependency>
-            <groupId>com.google.cloud</groupId>
-            <artifactId>google-cloud-logging-logback</artifactId>
-            <version>0.120.8-alpha</version>
+            <groupId>com.sabre.gcp</groupId>
+            <artifactId>logging</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
@@ -99,4 +100,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>logging-repo</id>
+            <name>Repository from Logging library</name>
+            <url>https://raw.githubusercontent.com/ydvorzhetskiy/logging/master/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
