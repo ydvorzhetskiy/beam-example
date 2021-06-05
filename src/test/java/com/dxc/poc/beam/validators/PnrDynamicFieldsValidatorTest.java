@@ -15,7 +15,7 @@ public class PnrDynamicFieldsValidatorTest {
         obj.setPrSequence("123");
 
         val validator = new PnrDynamicFieldsValidator();
-        assertTrue(validator.doValidation(obj));
+        assertTrue(validator.doValidation(obj).isEmpty());
     }
 
     @Test
@@ -24,6 +24,6 @@ public class PnrDynamicFieldsValidatorTest {
         obj.setPrLocatorId("LOCATORID");
 
         val validator = new PnrDynamicFieldsValidator();
-        assertFalse(validator.doValidation(obj));
+        assertFalse(validator.doValidation(obj).isEmpty());
     }
 }

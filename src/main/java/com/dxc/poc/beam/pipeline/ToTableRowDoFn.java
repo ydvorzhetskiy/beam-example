@@ -3,13 +3,14 @@ package com.dxc.poc.beam.pipeline;
 import com.dxc.poc.beam.dto.Pnr;
 import com.google.api.services.bigquery.model.TableRow;
 import com.sabre.gcp.logging.CloudLogger;
+import com.sabre.gcp.validation.WithErrors;
 import lombok.val;
 import org.apache.beam.sdk.metrics.Counter;
 import org.apache.beam.sdk.metrics.Metrics;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.values.KV;
 
-public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
+public class ToTableRowDoFn extends DoFn<WithErrors<Pnr>, TableRow> {
 
     private final CloudLogger log = CloudLogger.getLogger(ToTableRowDoFn.class,
                                                 KV.of("application-name", "beam-example"),
@@ -19,8 +20,8 @@ public class ToTableRowDoFn extends DoFn<Pnr, TableRow> {
     private final Counter badRecordCounter = Metrics.counter("beam-example", "bad_record_count");
 
     @ProcessElement
-    public void processElement(@Element Pnr pnr, OutputReceiver<TableRow> out) {
-
+    public void processElement(@Element WithErrors<Pnr> pnrWithErrors, OutputReceiver<TableRow> out) {
+        Pnr pnr = pnrWithErrors.getObject();
         // Here is an example of debug logging
         log.debug("PNR will be processed", KV.of("ticket_number", pnr.getTicketNumber()));
 

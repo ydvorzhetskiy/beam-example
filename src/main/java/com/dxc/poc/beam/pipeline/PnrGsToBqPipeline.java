@@ -2,6 +2,7 @@ package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
 import com.sabre.gcp.logging.CloudLogger;
+import com.sabre.gcp.validation.ValidationChain;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
@@ -32,6 +33,9 @@ public class PnrGsToBqPipeline {
             .apply("Parse JSON to DTO",
                 withElapsedTime("parse_json", ParseJsons.of(Pnr.class)))
             .setCoder(SerializableCoder.of(Pnr.class))
+
+            .apply(ParDo.of(ValidationChain.getInstance("pnrChain", Pnr.class)))
+
             .apply("Convert to table row",
                 withElapsedTime("to_table_row_milliseconds", ParDo.of(new ToTableRowDoFn())))
             .apply("Write to BQ", BigQueryIO.writeTableRows()
