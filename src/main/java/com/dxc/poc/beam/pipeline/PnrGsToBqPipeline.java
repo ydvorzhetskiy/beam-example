@@ -3,6 +3,8 @@ package com.dxc.poc.beam.pipeline;
 import com.dxc.poc.beam.dto.Pnr;
 import com.sabre.gcp.logging.CloudLogger;
 import com.sabre.gcp.validation.ValidationChain;
+import com.sabre.gcp.validation.ValidationUtils;
+import com.sabre.gcp.validation.XmlSchemaValidator;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
@@ -15,8 +17,11 @@ import org.apache.beam.sdk.metrics.MetricsFilter;
 import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.KV;
+import org.apache.beam.sdk.values.PCollectionTuple;
 
 import static com.dxc.poc.beam.utils.MetricUtils.withElapsedTime;
+import static com.sabre.gcp.validation.ValidationUtils.invalidTag;
+import static com.sabre.gcp.validation.ValidationUtils.successTag;
 
 public class PnrGsToBqPipeline {
 

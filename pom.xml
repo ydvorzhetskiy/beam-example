@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.sabre.gcp</groupId>
             <artifactId>validation</artifactId>
-            <version>1.3</version>
+            <version>1.4</version>
         </dependency>
     </dependencies>
 
