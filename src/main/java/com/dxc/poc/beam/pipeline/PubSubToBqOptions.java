@@ -1,12 +1,13 @@
 package com.dxc.poc.beam.pipeline;
 
+import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.extensions.gcp.options.GcpOptions;
 import org.apache.beam.sdk.options.Default;
 import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.StreamingOptions;
 import org.apache.beam.sdk.options.Validation;
 
-public interface PubSubToBqOptions extends GcpOptions, StreamingOptions {
+public interface PubSubToBqOptions extends GcpOptions, StreamingOptions, DataflowPipelineOptions {
 
     @Description("The Cloud Pub/Sub topic to read from.")
     @Validation.Required

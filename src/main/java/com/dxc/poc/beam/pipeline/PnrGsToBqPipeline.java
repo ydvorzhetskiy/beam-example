@@ -19,7 +19,7 @@ import static com.dxc.poc.beam.utils.MetricUtils.withElapsedTime;
 
 public class PnrGsToBqPipeline {
 
-    private static final CloudLogger logger = CloudLogger.getLogger(PnrGsToBqPipeline.class);
+    private static final CloudLogger logger = CloudLogger.getLogger(PnrGsToBqPipeline.class, "ps-to-bq-job");
 
     public static void createAndRunPipeline(GsToBqOptions options) {
         val tableRef = BqMetadataFactory.createTableReference(

@@ -14,8 +14,8 @@ import org.apache.beam.sdk.values.KV;
 public class GsToBqApplication {
 
     private static final CloudLogger LOG = CloudLogger.getLogger(GsToBqApplication.class,
-        KV.of("application-name", "beam-example"),
-        KV.of("job-name", "dxc-stream-demo-job"));
+        "gs-to-bq-job",
+        KV.of("application-name", "beam-example"));
 
     public static void main(String[] args) {
         LOG.info("Entering the Application", KV.of("1", "2"));
