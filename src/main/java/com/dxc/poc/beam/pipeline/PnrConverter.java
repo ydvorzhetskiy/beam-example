@@ -2,11 +2,41 @@ package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
 import com.google.api.services.bigquery.model.TableRow;
+import com.google.cloud.bigquery.BigQueryOptions;
+import com.google.cloud.bigquery.FieldValueList;
+import com.google.cloud.bigquery.QueryJobConfiguration;
+import com.google.cloud.bigquery.TableResult;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.beam.sdk.transforms.DoFn;
 
+import java.time.Duration;
+import java.time.Instant;
+
+@Slf4j
 public class PnrConverter {
 
+    @SneakyThrows
     public static TableRow toTableRow(Pnr pnr) {
+
+        val bq = BigQueryOptions.getDefaultInstance().getService();
+        val jobConfiguration = QueryJobConfiguration
+            .newBuilder("SELECT code, value" +
+                " FROM `beam_example.mdm_table`")
+            .setUseQueryCache(true)
+            .build();
+
+        val start = Instant.now();
+        Iterable<FieldValueList> values = bq.query(jobConfiguration).getValues();
+        int numberOfRows = 0;
+        for (FieldValueList value : values) {
+            numberOfRows++;
+        }
+        val end = Instant.now();
+        val queryTimeMs = Duration.between(start, end).toMillis();
+        log.info("Query time: {} ms, Total rows: {}", queryTimeMs, numberOfRows);
+
         val row = new TableRow();
         row.set("pr_locator_id", pnr.getPrLocatorId());
         row.set("ticket_number", pnr.getTicketNumber());
