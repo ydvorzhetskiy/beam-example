@@ -1,6 +1,6 @@
 package com.dxc.poc.beam;
 
-import com.dxc.poc.beam.pipeline.GsToBqOptions;
+import com.dxc.poc.beam.options.GsToBqOptions;
 import com.dxc.poc.beam.pipeline.PnrGsToBqPipeline;
 import com.dxc.poc.beam.utils.logging.LogContext;
 import com.google.cloud.MonitoredResource;

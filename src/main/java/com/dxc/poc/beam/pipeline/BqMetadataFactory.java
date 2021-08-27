@@ -31,4 +31,11 @@ public class BqMetadataFactory {
         fieldDefs.add(new TableFieldSchema().setName("creditcard_number").setType("STRING"));
         return new TableSchema().setFields(fieldDefs);
     }
+
+    public static TableSchema createTableSchemeMyData() {
+        val fieldDefs = new ArrayList<TableFieldSchema>();
+        fieldDefs.add(new TableFieldSchema().setName("field_a").setType("STRING"));
+        fieldDefs.add(new TableFieldSchema().setName("field_b").setType("STRING"));
+        return new TableSchema().setFields(fieldDefs);
+    }
 }

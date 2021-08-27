@@ -1,6 +1,8 @@
 package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
+import com.dxc.poc.beam.options.GsToBqOptions;
+import com.dxc.poc.beam.transforms.ToTableRowDoFn;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;

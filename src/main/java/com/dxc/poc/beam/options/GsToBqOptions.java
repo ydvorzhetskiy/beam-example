@@ -1,4 +1,4 @@
-package com.dxc.poc.beam.pipeline;
+package com.dxc.poc.beam.options;
 
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.options.*;
