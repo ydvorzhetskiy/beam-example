@@ -2,11 +2,13 @@ package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
 import com.google.api.services.bigquery.model.TableRow;
-import com.sabre.gcp.logging.CloudLogger;
+import com.sabre.dna.logging.CloudLogger;
+import com.sabre.dna.logging.Label;
 import lombok.val;
 
 public class PnrConverter {
-    private final static CloudLogger LOG = CloudLogger.getLogger(PnrConverter.class);
+    private final static CloudLogger LOG = CloudLogger.getLogger(PnrConverter.class, "ps_to_bq",
+            Label.of("label", "value"));
 
     public static TableRow toTableRow(Pnr pnr) {
         LOG.info("Transforming...");
