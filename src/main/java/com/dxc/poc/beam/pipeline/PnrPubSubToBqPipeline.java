@@ -1,5 +1,6 @@
 package com.dxc.poc.beam.pipeline;
 
+import com.dxc.poc.beam.PubSubToBqApplication;
 import com.dxc.poc.beam.dto.Pnr;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
@@ -10,15 +11,20 @@ import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.ParDo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PnrPubSubToBqPipeline {
 
+    private static final Logger LOG = LoggerFactory.getLogger(PnrPubSubToBqPipeline.class);
+
     public static void createAndRunPipeline(PubSubToBqOptions options) {
+        LOG.info("Creating a pipeline");
         val tableRef = BqMetadataFactory.createTableReference(
                 options.getProject(), options.getDataset(), options.getTableName());
         val schema = BqMetadataFactory.createTableSchema();
 
-        Pipeline.create(options)
+        val pipe = Pipeline.create(options)
                 .apply("Read JSON from Pub/Sub",
                         PubsubIO.readStrings()
                                 .fromTopic(options.getInputTopic()))
@@ -34,6 +40,9 @@ public class PnrPubSubToBqPipeline {
                         .withWriteDisposition(BigQueryIO.Write.WriteDisposition.WRITE_APPEND)
                         .withCustomGcsTempLocation(ValueProvider.StaticValueProvider.of(options.getGcpTempLocation())))
                 .getPipeline()
-                .run().waitUntilFinish();
+                .run();
+        LOG.info("Waiting the pipeline ydydy");
+        pipe.waitUntilFinish();
+        LOG.info("Pipeline finished");
     }
 }

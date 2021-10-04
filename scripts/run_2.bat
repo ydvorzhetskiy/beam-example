@@ -2,7 +2,7 @@
 
 call vars.bat
 
-call java -cp ../target/beam-example.jar com.dxc.poc.beam.PubSubToBqApplication ^
+call java -Djava.util.logging.config.file=logging.properties -cp ../target/beam-example.jar com.dxc.poc.beam.PubSubToBqApplication ^
     --project=sab-dev-dap-common-4288 --region=us-central1 ^
     --appName=PubSubToBqApplication --jobName=ps-to-bq-job ^
     --inputTopic=projects/sab-dev-dap-common-4288/topics/%TOPIC_ID% ^
