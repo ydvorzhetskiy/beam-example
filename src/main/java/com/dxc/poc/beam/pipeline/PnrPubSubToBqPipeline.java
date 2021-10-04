@@ -1,6 +1,7 @@
 package com.dxc.poc.beam.pipeline;
 
 import com.dxc.poc.beam.dto.Pnr;
+import com.sabre.gcp.logging.CloudLogger;
 import lombok.val;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.SerializableCoder;
@@ -13,12 +14,15 @@ import org.apache.beam.sdk.transforms.ParDo;
 
 public class PnrPubSubToBqPipeline {
 
+    private static final CloudLogger LOG = CloudLogger.getLogger(PnrPubSubToBqPipeline.class);
+
     public static void createAndRunPipeline(PubSubToBqOptions options) {
+        LOG.info("Creating a pipeline2");
         val tableRef = BqMetadataFactory.createTableReference(
                 options.getProject(), options.getDataset(), options.getTableName());
         val schema = BqMetadataFactory.createTableSchema();
 
-        Pipeline.create(options)
+        val pipe = Pipeline.create(options)
                 .apply("Read JSON from Pub/Sub",
                         PubsubIO.readStrings()
                                 .fromTopic(options.getInputTopic()))
@@ -34,6 +38,9 @@ public class PnrPubSubToBqPipeline {
                         .withWriteDisposition(BigQueryIO.Write.WriteDisposition.WRITE_APPEND)
                         .withCustomGcsTempLocation(ValueProvider.StaticValueProvider.of(options.getGcpTempLocation())))
                 .getPipeline()
-                .run().waitUntilFinish();
+                .run();
+        LOG.info("Waiting the pipeline ydydy");
+        pipe.waitUntilFinish();
+        LOG.info("Pipeline finished");
     }
 }
